@@ -7,11 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * The database connection that should be used by the migration.
+     */
+    protected $connection = 'central';
+    
+    /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::connection('central')->table('users', function (Blueprint $table) {
             // Core 2FA fields
             $table->text('two_factor_secret')
                 ->after('password')
@@ -105,11 +110,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::connection('central')->table('users', function (Blueprint $table) {
             // Drop all 2FA related indexes first
-            $table->dropIndex(['users_2fa_status']);
-            $table->dropIndex(['users_2fa_locked']);
-            $table->dropIndex(['users_2fa_activity']);
+            $table->dropIndex('users_2fa_status');
+            $table->dropIndex('users_2fa_locked');
+            $table->dropIndex('users_2fa_activity');
             $table->dropIndex(['two_factor_enabled']);
             $table->dropIndex(['two_factor_required_by_tenant']);
 

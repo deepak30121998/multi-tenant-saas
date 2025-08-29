@@ -57,9 +57,8 @@ class CreateTenantUserImpersonationTokensTable extends Migration
             $table->json('context')->nullable(); // Additional context/metadata
             $table->json('audit_log')->nullable(); // Actions taken during impersonation
             
-            // Timestamps
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at')->nullable();
+            // Timestamps - Fixed: Use Laravel's timestamps() helper or useCurrent()
+            $table->timestamps(); // This creates created_at and updated_at with proper defaults
             
             // Foreign key constraints
             $table->foreign('tenant_id')
